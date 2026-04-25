@@ -180,6 +180,7 @@ function CollectionNodeComponent({
 
   const dragListeners = renaming ? undefined : listeners;
   const dragAttributes = renaming ? undefined : attributes;
+  const isRequestDraggable = !isFolder && !renaming;
 
   return (
     <NodeContextMenu
@@ -193,6 +194,19 @@ function CollectionNodeComponent({
         ref={setNodeRef}
         {...dragAttributes}
         {...dragListeners}
+        draggable={isRequestDraggable}
+        onDragStart={(event) => {
+          if (!isRequestDraggable || node.type !== 'request') return;
+          event.dataTransfer.setData(
+            'application/restfox-request',
+            JSON.stringify({
+              requestId: node.id,
+              name: node.name,
+              method: node.method,
+            }),
+          );
+          event.dataTransfer.effectAllowed = 'copyMove';
+        }}
         role="treeitem"
         aria-level={depth + 1}
         aria-selected={selected || undefined}

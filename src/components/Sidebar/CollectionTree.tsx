@@ -26,6 +26,7 @@ import {
   selectNode,
   toggleExpanded,
 } from '../../store/slices/collectionsSlice';
+import { openRequestTab } from '@/store/slices/workspaceSlice';
 import { TREE_INDENT_PX } from '../../data/constants';
 import { useTreeShortcuts } from '../../hooks/useKeyboardShortcuts';
 import { CollectionNode } from './CollectionNode';
@@ -112,8 +113,19 @@ function CollectionTreeComponent() {
   );
 
   const handleSelect = useCallback(
-    (id: string) => dispatch(selectNode(id)),
-    [dispatch],
+    (id: string) => {
+      dispatch(selectNode(id));
+      const node = findNode(tree, id);
+      if (!node || node.type !== 'request') return;
+      dispatch(
+        openRequestTab({
+          requestId: node.id,
+          name: node.name,
+          method: node.method,
+        }),
+      );
+    },
+    [dispatch, tree],
   );
 
   const handleStartRename = useCallback(

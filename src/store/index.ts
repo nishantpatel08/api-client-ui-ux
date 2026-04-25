@@ -2,18 +2,27 @@ import { configureStore } from '@reduxjs/toolkit';
 import collectionsReducer, {
   type CollectionsState,
 } from './slices/collectionsSlice';
+import workspaceReducer, {
+  INITIAL_WORKSPACE_STATE,
+} from './slices/workspaceSlice';
 import { saveCollections } from './persistence';
+import type { WorkspaceState } from '@/types/workspace';
 
 export interface PreloadedStoreState {
   collections: CollectionsState;
+  workspace?: WorkspaceState;
 }
 
 export function createAppStore(preloadedState: PreloadedStoreState) {
   const store = configureStore({
     reducer: {
       collections: collectionsReducer,
+      workspace: workspaceReducer,
     },
-    preloadedState,
+    preloadedState: {
+      ...preloadedState,
+      workspace: preloadedState.workspace ?? INITIAL_WORKSPACE_STATE,
+    },
   });
 
   let saveTimer: ReturnType<typeof setTimeout> | null = null;

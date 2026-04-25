@@ -1,4 +1,7 @@
 import { memo } from 'react';
+import { Columns2, Rows2 } from 'lucide-react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setOrientation } from '@/store/slices/workspaceSlice';
 import './StatusBar.css';
 
 interface StatusItemProps {
@@ -14,36 +17,38 @@ function StatusItem({ children, label }: StatusItemProps) {
   );
 }
 
-const LEFT_ITEMS = [
-  { id: 'branch', label: 'Git branch', content: '⎇ main' },
-  { id: 'problems', label: 'Problems', content: '⚠ 0  ⛔ 0' },
-] as const;
-
-const RIGHT_ITEMS = [
-  { id: 'language', label: 'Language', content: 'TypeScript' },
-  { id: 'cursor', label: 'Cursor position', content: 'Ln 42, Col 18' },
-  { id: 'indent', label: 'Indent', content: 'Spaces: 2' },
-  { id: 'encoding', label: 'Encoding', content: 'UTF-8' },
-  { id: 'eol', label: 'End of Line', content: 'LF' },
-  { id: 'formatter', label: 'Formatter', content: 'Prettier' },
-  { id: 'notifications', label: 'Notifications', content: '🔔' },
-] as const;
-
 function StatusBarComponent() {
+  const dispatch = useAppDispatch();
+  const orientation = useAppSelector((state) => state.workspace.orientation);
+
   return (
     <footer className="status-bar" role="status" aria-label="Status Bar">
-      {LEFT_ITEMS.map((item) => (
-        <StatusItem key={item.id} label={item.label}>
-          {item.content}
-        </StatusItem>
-      ))}
+      <StatusItem label="Current environment">Dev</StatusItem>
+      <StatusItem label="Layout view">
+        {orientation === 'column' ? 'Columns' : 'Rows'}
+      </StatusItem>
 
       <div className="status-bar__right">
-        {RIGHT_ITEMS.map((item) => (
-          <StatusItem key={item.id} label={item.label}>
-            {item.content}
-          </StatusItem>
-        ))}
+        <button
+          type="button"
+          className="status-item"
+          onClick={() => dispatch(setOrientation('column'))}
+          aria-label="Switch to column view"
+          data-active={orientation === 'column' ? 'true' : undefined}
+        >
+          <Columns2 size={14} />
+          Columns
+        </button>
+        <button
+          type="button"
+          className="status-item"
+          onClick={() => dispatch(setOrientation('row'))}
+          aria-label="Switch to row view"
+          data-active={orientation === 'row' ? 'true' : undefined}
+        >
+          <Rows2 size={14} />
+          Rows
+        </button>
       </div>
     </footer>
   );

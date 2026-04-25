@@ -30,6 +30,10 @@
   background: rgba(255, 255, 255, 0.12);
 }
 
+.status-item[data-active='true'] {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 .status-bar__right {
   margin-left: auto;
   display: flex;

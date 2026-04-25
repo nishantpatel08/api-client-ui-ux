@@ -46,3 +46,4 @@ export interface ActivityBarItem {
 }
 
 export * from './collections';
+export * from './workspace';
