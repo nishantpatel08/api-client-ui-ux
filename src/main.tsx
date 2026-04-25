@@ -9,6 +9,7 @@ import { getSeedCollectionsState, loadCollections } from './store/persistence';
 async function bootstrap() {
   const rootEl = document.getElementById('root');
   if (!rootEl) throw new Error('Root element #root not found');
+  document.documentElement.classList.add('dark');
 
   const storedCollections = await loadCollections();
   const store = createAppStore({

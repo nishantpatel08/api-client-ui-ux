@@ -1,37 +1,130 @@
-/*
- * Tailwind v4 setup for shadcn components.
- * Preflight is intentionally excluded so the existing plain-CSS layout
- * (workbench, activity bar, sidebar, sash, etc.) is not reset.
- * Only shadcn primitives under src/components/ui should rely on utility
- * classes; layout files keep their hand-written CSS.
- */
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+/* Keep this commented out */
+/* @import "@fontsource-variable/geist"; */
 
-@layer theme, base, components, utilities;
+@custom-variant dark (&:is(.dark *));
 
-@import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: "Geist Variable", "Segoe UI", system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+}
 
-@theme {
-  --color-background: #1e1e1e;
-  --color-foreground: #cccccc;
+:root {
+  --background: #1e1e1e;
+  --foreground: #cccccc;
+  --card: #252526;
+  --card-foreground: #cccccc;
+  --popover: #252526;
+  --popover-foreground: #cccccc;
+  --primary: #007acc;
+  --primary-foreground: #ffffff;
+  --secondary: #2d2d2d;
+  --secondary-foreground: #cccccc;
+  --muted: #2a2d2e;
+  --muted-foreground: #8c8c8c;
+  --accent: #094771;
+  --accent-foreground: #ffffff;
+  --destructive: #e51400;
+  --border: #454545;
+  --input: #3c3c3c;
+  --ring: #007acc;
+  --chart-1: #6bdd9a;
+  --chart-2: #74aef6;
+  --chart-3: #ffe47e;
+  --chart-4: #c0a8e1;
+  --chart-5: #f79a8e;
+  --radius: 0.375rem;
+  --sidebar: #252526;
+  --sidebar-foreground: #cccccc;
+  --sidebar-primary: #007acc;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2a2d2e;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #333333;
+  --sidebar-ring: #007acc;
+}
 
-  --color-muted: #2a2d2e;
-  --color-muted-foreground: #8c8c8c;
+.dark {
+  --background: #1e1e1e;
+  --foreground: #cccccc;
+  --card: #252526;
+  --card-foreground: #cccccc;
+  --popover: #252526;
+  --popover-foreground: #cccccc;
+  --primary: #007acc;
+  --primary-foreground: #ffffff;
+  --secondary: #2d2d2d;
+  --secondary-foreground: #cccccc;
+  --muted: #2a2d2e;
+  --muted-foreground: #8c8c8c;
+  --accent: #094771;
+  --accent-foreground: #ffffff;
+  --destructive: #e51400;
+  --border: #454545;
+  --input: #3c3c3c;
+  --ring: #007acc;
+  --chart-1: #6bdd9a;
+  --chart-2: #74aef6;
+  --chart-3: #ffe47e;
+  --chart-4: #c0a8e1;
+  --chart-5: #f79a8e;
+  --sidebar: #252526;
+  --sidebar-foreground: #cccccc;
+  --sidebar-primary: #007acc;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2a2d2e;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #333333;
+  --sidebar-ring: #007acc;
+}
 
-  --color-border: #454545;
-  --color-input: #3c3c3c;
-  --color-ring: #007acc;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
 
-  --color-primary: #007acc;
-  --color-primary-foreground: #ffffff;
+  body {
+    @apply bg-background text-foreground;
+  }
 
-  --color-accent: #094771;
-  --color-accent-foreground: #ffffff;
-
-  --color-destructive: #e51400;
-  --color-destructive-foreground: #ffffff;
-
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
+  html {
+    @apply font-sans;
+  }
 }

@@ -5,7 +5,7 @@ import {
   ListCollapse,
   MoreHorizontal,
 } from 'lucide-react';
-import { IconButton } from '../ui/icon-button';
+import { IconButton } from '@/components/ui/icon-button';
 import { useAppDispatch } from '../../store/hooks';
 import {
   addFolder,

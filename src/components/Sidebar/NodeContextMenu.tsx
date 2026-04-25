@@ -11,7 +11,7 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from '../ui/context-menu';
+} from '@/components/ui/context-menu';
 
 interface NodeContextMenuProps {
   isFolder: boolean;
@@ -54,7 +54,7 @@ function NodeContextMenuComponent({
         <ContextMenuSeparator />
         <ContextMenuItem
           onSelect={onDelete}
-          className="text-[var(--color-destructive)] focus:bg-[var(--color-destructive)] focus:text-[var(--color-destructive-foreground)]"
+          className="text-destructive focus:bg-destructive focus:text-white"
         >
           <Trash2 className="h-4 w-4" aria-hidden="true" />
           <span>Delete</span>

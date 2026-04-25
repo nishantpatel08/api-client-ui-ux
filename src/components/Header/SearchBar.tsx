@@ -1,6 +1,6 @@
 import { memo, useCallback, useState, type ChangeEvent } from 'react';
 import { Search } from 'lucide-react';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 
 function SearchBarComponent() {
   const [value, setValue] = useState('');

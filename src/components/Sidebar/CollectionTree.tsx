@@ -30,7 +30,7 @@ import { TREE_INDENT_PX } from '../../data/constants';
 import { useTreeShortcuts } from '../../hooks/useKeyboardShortcuts';
 import { CollectionNode } from './CollectionNode';
 import { getDropProjection, type DropProjection } from './treeProjection';
-import { ConfirmDialog } from '../ui/confirm-dialog';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import './CollectionTree.css';
 
 interface DeleteTarget {

@@ -1,13 +1,14 @@
 import { memo, useCallback, type ReactNode } from 'react';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from './dialog';
-import { cn } from '../../utils/classNames';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -19,9 +20,6 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
   onOpenChange: (open: boolean) => void;
 }
-
-const BUTTON_BASE =
-  'inline-flex h-8 items-center justify-center rounded-md px-3 text-[13px] font-medium outline-none transition-colors focus-visible:ring-1 focus-visible:ring-[var(--color-ring)]';
 
 function ConfirmDialogComponent({
   open,
@@ -43,41 +41,28 @@ function ConfirmDialogComponent({
   }, [onOpenChange]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showClose={false}>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
           {description ? (
-            <DialogDescription>{description}</DialogDescription>
+            <AlertDialogDescription>{description}</AlertDialogDescription>
           ) : null}
-        </DialogHeader>
-        <DialogFooter>
-          <button
-            type="button"
-            onClick={handleCancel}
-            className={cn(
-              BUTTON_BASE,
-              'border border-[var(--color-border)] bg-transparent text-[var(--color-foreground)] hover:bg-white/5',
-            )}
-          >
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={handleCancel}>
             {cancelLabel}
-          </button>
-          <button
-            type="button"
+          </AlertDialogCancel>
+          <AlertDialogAction
             onClick={handleConfirm}
+            variant={destructive ? 'destructive' : 'default'}
             autoFocus
-            className={cn(
-              BUTTON_BASE,
-              destructive
-                ? 'bg-[var(--color-destructive)] text-[var(--color-destructive-foreground)] hover:opacity-90'
-                : 'bg-[var(--color-primary)] text-[var(--color-primary-foreground)] hover:opacity-90',
-            )}
           >
             {confirmLabel}
-          </button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
 

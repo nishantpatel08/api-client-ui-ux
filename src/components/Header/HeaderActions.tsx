@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react';
 import { PanelLeft, PanelRight } from 'lucide-react';
 import { useWorkbench } from '../../hooks/useWorkbench';
-import { IconButton } from '../ui/icon-button';
+import { IconButton } from '@/components/ui/icon-button';
 
 function HeaderActionsComponent() {
   const { state, dispatch } = useWorkbench();
