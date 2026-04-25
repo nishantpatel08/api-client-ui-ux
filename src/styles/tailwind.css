@@ -1,0 +1,37 @@
+/*
+ * Tailwind v4 setup for shadcn components.
+ * Preflight is intentionally excluded so the existing plain-CSS layout
+ * (workbench, activity bar, sidebar, sash, etc.) is not reset.
+ * Only shadcn primitives under src/components/ui should rely on utility
+ * classes; layout files keep their hand-written CSS.
+ */
+
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+  --color-background: #1e1e1e;
+  --color-foreground: #cccccc;
+
+  --color-muted: #2a2d2e;
+  --color-muted-foreground: #8c8c8c;
+
+  --color-border: #454545;
+  --color-input: #3c3c3c;
+  --color-ring: #007acc;
+
+  --color-primary: #007acc;
+  --color-primary-foreground: #ffffff;
+
+  --color-accent: #094771;
+  --color-accent-foreground: #ffffff;
+
+  --color-destructive: #e51400;
+  --color-destructive-foreground: #ffffff;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}

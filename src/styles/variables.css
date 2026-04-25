@@ -1,0 +1,61 @@
+:root {
+  --header-bg: #252526;
+  --header-fg: #e4e4e4;
+  --header-height: 44px;
+
+  --logo-bg: #ff7a3d;
+  --logo-fg: #ffffff;
+
+  --activitybar-bg: #1e1e1e;
+  --activitybar-width: 48px;
+  --activitybar-icon: #858585;
+  --activitybar-icon-active: #ffffff;
+  --activitybar-active-border: #ff7a3d;
+
+  --sidebar-bg: #252526;
+  --sidebar-fg: #cccccc;
+  --sidebar-header: #2d2d2d;
+  --sidebar-width: 260px;
+  --sidebar-min: 170px;
+  --sidebar-max: 600px;
+  --sidebar-row-hover: #2a2d2e;
+  --sidebar-row-selected: #37373d;
+
+  --tabs-bg: #2d2d2d;
+  --tab-active-bg: #1e1e1e;
+  --tab-inactive-bg: #2d2d2d;
+  --tab-active-fg: #ffffff;
+  --tab-inactive-fg: #969696;
+  --tab-border: #252526;
+  --tab-active-border: #ff7a3d;
+  --tabs-height: 35px;
+
+  --editor-bg: #1e1e1e;
+  --editor-fg: #d4d4d4;
+  --line-numbers: #858585;
+  --editor-active-line: #2a2d2e;
+  --editor-keyword: #569cd6;
+  --editor-string: #ce9178;
+  --editor-comment: #6a9955;
+  --editor-function: #dcdcaa;
+  --editor-variable: #9cdcfe;
+  --editor-number: #b5cea8;
+  --editor-type: #4ec9b0;
+  --editor-punc: #d4d4d4;
+
+  --statusbar-bg: #007acc;
+  --statusbar-fg: #ffffff;
+  --statusbar-height: 22px;
+
+  --resize-handle: #ff7a3d;
+  --border: #333333;
+  --scrollbar: #424242;
+
+  --method-get: #49cc90;
+  --method-post: #fca130;
+  --method-put: #61affe;
+  --method-patch: #50e3c2;
+  --method-delete: #f93e3e;
+  --method-head: #9012fe;
+  --method-options: #0d5aa7;
+}

@@ -1,0 +1,38 @@
+.status-bar {
+  height: var(--statusbar-height);
+  background: var(--statusbar-bg);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  flex-shrink: 0;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--statusbar-fg);
+  user-select: none;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 5px;
+  height: 100%;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+.status-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.status-bar__right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
