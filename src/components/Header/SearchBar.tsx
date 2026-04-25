@@ -1,5 +1,5 @@
 import { memo, useCallback, useState, type ChangeEvent } from 'react';
-import { Search } from 'lucide-react';
+import { Codicon } from '@/components/ui/codicon';
 import { Input } from '@/components/ui/input';
 
 function SearchBarComponent() {
@@ -11,10 +11,7 @@ function SearchBarComponent() {
 
   return (
     <div className="header__search" role="search">
-      <Search
-        className="header__search-icon"
-        aria-hidden="true"
-      />
+      <Codicon name="search" className="header__search-icon" aria-hidden="true" />
       <Input
         type="search"
         value={value}

@@ -88,9 +88,8 @@
 }
 
 .tree-row__chevron-icon {
-  width: 14px;
-  height: 14px;
-  stroke-width: 1.8;
+  font-size: 14px;
+  line-height: 1;
 }
 
 .tree-row__marker {
@@ -104,10 +103,9 @@
 }
 
 .tree-row__folder-icon {
-  width: 16px;
-  height: 16px;
+  font-size: 16px;
+  line-height: 1;
   color: #dcb67a;
-  stroke-width: 1.6;
 }
 
 .tree-row__label {

@@ -8,12 +8,12 @@ import {
 } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { ChevronDown, ChevronRight, Folder } from 'lucide-react';
 import type { FlatCollectionNode } from '../../types';
 import { cn } from '../../utils/classNames';
 import { MethodBadge } from './MethodBadge';
 import { NodeContextMenu } from './NodeContextMenu';
 import { TREE_INDENT_PX } from '../../data/constants';
+import { Codicon } from '@/components/ui/codicon';
 
 interface CollectionNodeProps {
   flat: FlatCollectionNode;
@@ -219,9 +219,9 @@ function CollectionNodeComponent({
             tabIndex={-1}
           >
             {expanded ? (
-              <ChevronDown className="tree-row__chevron-icon" aria-hidden="true" />
+              <Codicon name="chevron-down" className="tree-row__chevron-icon" aria-hidden="true" />
             ) : (
-              <ChevronRight className="tree-row__chevron-icon" aria-hidden="true" />
+              <Codicon name="chevron-right" className="tree-row__chevron-icon" aria-hidden="true" />
             )}
           </button>
         ) : (
@@ -230,7 +230,7 @@ function CollectionNodeComponent({
 
         <span className="tree-row__marker" aria-hidden="true">
           {isFolder ? (
-            <Folder className="tree-row__folder-icon" aria-hidden="true" />
+            <Codicon name="folder" className="tree-row__folder-icon" aria-hidden="true" />
           ) : (
             <MethodBadge method={node.method} />
           )}

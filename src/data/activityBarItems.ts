@@ -1,12 +1,3 @@
-import {
-  FolderTree,
-  GitBranch,
-  History,
-  Layers,
-  Search,
-  Settings,
-  type LucideIcon,
-} from 'lucide-react';
 import type { ActivityBarItem } from '../types';
 import {
   ACTIVITY_COLLECTIONS,
@@ -56,11 +47,11 @@ export const ACTIVITY_BAR_ITEMS: ActivityBarItem[] = [
   },
 ];
 
-export const ACTIVITY_ICON_MAP: Record<string, LucideIcon> = {
-  collections: FolderTree,
-  search: Search,
-  environments: Layers,
-  scm: GitBranch,
-  history: History,
-  settings: Settings,
+export const ACTIVITY_ICON_MAP: Record<string, string> = {
+  collections: 'files',
+  search: 'search',
+  environments: 'layers',
+  scm: 'source-control',
+  history: 'history',
+  settings: 'settings-gear',
 };

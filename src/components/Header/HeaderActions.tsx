@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react';
-import { PanelLeft, PanelRight } from 'lucide-react';
 import { useWorkbench } from '../../hooks/useWorkbench';
 import { IconButton } from '@/components/ui/icon-button';
+import { Codicon } from '@/components/ui/codicon';
 
 function HeaderActionsComponent() {
   const { state, dispatch } = useWorkbench();
@@ -19,14 +19,14 @@ function HeaderActionsComponent() {
         aria-pressed={!sidebarHidden}
         title={sidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
       >
-        <PanelLeft className="header__action-icon" aria-hidden="true" />
+        <Codicon name="layout-sidebar-left" className="header__action-icon" aria-hidden="true" />
       </IconButton>
       <IconButton
         aria-label="Toggle secondary panel"
         title="Toggle secondary panel"
         disabled
       >
-        <PanelRight className="header__action-icon" aria-hidden="true" />
+        <Codicon name="layout-sidebar-right" className="header__action-icon" aria-hidden="true" />
       </IconButton>
     </div>
   );

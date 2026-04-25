@@ -64,7 +64,6 @@
 }
 
 .activity-icon__svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 1.6;
+  font-size: 22px;
+  line-height: 1;
 }

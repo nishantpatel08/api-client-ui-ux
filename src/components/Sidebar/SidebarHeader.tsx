@@ -1,11 +1,6 @@
 import { memo, useCallback } from 'react';
-import {
-  FilePlus,
-  FolderPlus,
-  ListCollapse,
-  MoreHorizontal,
-} from 'lucide-react';
 import { IconButton } from '@/components/ui/icon-button';
+import { Codicon } from '@/components/ui/codicon';
 import { useAppDispatch } from '../../store/hooks';
 import {
   addFolder,
@@ -42,7 +37,7 @@ function SidebarHeaderComponent({ title }: SidebarHeaderProps) {
           title="New request"
           className="sidebar__header-btn"
         >
-          <FilePlus className="sidebar__header-icon" aria-hidden="true" />
+          <Codicon name="new-file" className="sidebar__header-icon" aria-hidden="true" />
         </IconButton>
         <IconButton
           onClick={handleAddFolder}
@@ -50,7 +45,7 @@ function SidebarHeaderComponent({ title }: SidebarHeaderProps) {
           title="New folder"
           className="sidebar__header-btn"
         >
-          <FolderPlus className="sidebar__header-icon" aria-hidden="true" />
+          <Codicon name="new-folder" className="sidebar__header-icon" aria-hidden="true" />
         </IconButton>
         <IconButton
           onClick={handleCollapseAll}
@@ -58,14 +53,14 @@ function SidebarHeaderComponent({ title }: SidebarHeaderProps) {
           title="Collapse all"
           className="sidebar__header-btn"
         >
-          <ListCollapse className="sidebar__header-icon" aria-hidden="true" />
+          <Codicon name="collapse-all" className="sidebar__header-icon" aria-hidden="true" />
         </IconButton>
         <IconButton
           aria-label="More actions"
           title="More actions"
           className="sidebar__header-btn"
         >
-          <MoreHorizontal className="sidebar__header-icon" aria-hidden="true" />
+          <Codicon name="ellipsis" className="sidebar__header-icon" aria-hidden="true" />
         </IconButton>
       </div>
     </div>

@@ -74,8 +74,8 @@
   left: 8px;
   top: 50%;
   transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
+  font-size: 14px;
+  line-height: 1;
   color: var(--color-muted-foreground, #8c8c8c);
   pointer-events: none;
 }
@@ -91,7 +91,6 @@
 }
 
 .header__action-icon {
-  width: 16px;
-  height: 16px;
-  stroke-width: 1.6;
+  font-size: 16px;
+  line-height: 1;
 }

@@ -47,9 +47,8 @@
 }
 
 .sidebar__header-icon {
-  width: 14px;
-  height: 14px;
-  stroke-width: 1.6;
+  font-size: 14px;
+  line-height: 1;
 }
 
 .sidebar__placeholder {

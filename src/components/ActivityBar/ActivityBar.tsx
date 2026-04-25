@@ -4,6 +4,7 @@ import {
   ACTIVITY_BAR_ITEMS,
   ACTIVITY_ICON_MAP,
 } from '../../data/activityBarItems';
+import { Codicon } from '@/components/ui/codicon';
 import { cn } from '../../utils/classNames';
 import type { ActivityBarItem } from '../../types';
 import './ActivityBar.css';
@@ -19,7 +20,7 @@ const ActivityIconButton = memo(function ActivityIconButton({
   active,
   onSelect,
 }: ActivityIconButtonProps) {
-  const Icon = ACTIVITY_ICON_MAP[item.icon];
+  const iconName = ACTIVITY_ICON_MAP[item.icon];
   const handleClick = useCallback(() => onSelect(item.id), [item.id, onSelect]);
 
   return (
@@ -31,7 +32,9 @@ const ActivityIconButton = memo(function ActivityIconButton({
       aria-pressed={active}
       onClick={handleClick}
     >
-      {Icon ? <Icon className="activity-icon__svg" aria-hidden="true" /> : null}
+      {iconName ? (
+        <Codicon name={iconName} className="activity-icon__svg" aria-hidden="true" />
+      ) : null}
     </button>
   );
 });

@@ -1,0 +1,26 @@
+---
+alwaysApply: true
+---
+Treat this project as production level project, So all code sould be in proper structure and optimized
+
+# Project rules
+- Follow the existing feature-based structure in `src/`:
+  - `components/` for UI components grouped by feature (e.g. `Sidebar`, `EditorArea`, `Header`, `Workbench`).
+  - `hooks/` for reusable React hooks.
+  - `store/` for global state and Redux slices.
+  - `context/` for React context + reducers.
+  - `types/` for shared TypeScript types/interfaces.
+  - `utils/` for pure utility/helper functions.
+  - `data/` for static mock or seed data only.
+- Prefer functional React components with hooks; avoid class components.
+- Use TypeScript strictly: explicit types for public APIs, avoid `any` unless truly necessary.
+- Keep components small and reusable; move shared logic into hooks or utils.
+- Do not write inline style; use CSS/Tailwind utility classes and shared style files.
+- Preserve existing UI stack conventions (Tailwind + shadcn-style components in `src/components/ui`).
+- Use `yarn` for package management and scripts (never use npm).
+- Add brief comments only for non-obvious logic; avoid redundant comments.
+- Keep imports organized: external libs first, then absolute/internal modules, then relative imports.
+- When adding new files, keep naming consistent with current conventions:
+  - Components: PascalCase file names (e.g. `StatusBar.tsx`)
+  - Hooks: `useXxx.ts`
+  - Utils/data: camelCase file names
