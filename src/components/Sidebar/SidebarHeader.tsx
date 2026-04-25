@@ -2,12 +2,16 @@ import { memo, useCallback } from 'react';
 import {
   FilePlus,
   FolderPlus,
+  ListCollapse,
   MoreHorizontal,
-  RefreshCw,
 } from 'lucide-react';
 import { IconButton } from '../ui/icon-button';
 import { useAppDispatch } from '../../store/hooks';
-import { addFolder, addRequest } from '../../store/slices/collectionsSlice';
+import {
+  addFolder,
+  addRequest,
+  collapseAll,
+} from '../../store/slices/collectionsSlice';
 
 interface SidebarHeaderProps {
   title: string;
@@ -22,6 +26,10 @@ function SidebarHeaderComponent({ title }: SidebarHeaderProps) {
 
   const handleAddFolder = useCallback(() => {
     dispatch(addFolder({ parentId: null }));
+  }, [dispatch]);
+
+  const handleCollapseAll = useCallback(() => {
+    dispatch(collapseAll());
   }, [dispatch]);
 
   return (
@@ -45,11 +53,12 @@ function SidebarHeaderComponent({ title }: SidebarHeaderProps) {
           <FolderPlus className="sidebar__header-icon" aria-hidden="true" />
         </IconButton>
         <IconButton
-          aria-label="Refresh"
-          title="Refresh"
+          onClick={handleCollapseAll}
+          aria-label="Collapse all"
+          title="Collapse all"
           className="sidebar__header-btn"
         >
-          <RefreshCw className="sidebar__header-icon" aria-hidden="true" />
+          <ListCollapse className="sidebar__header-icon" aria-hidden="true" />
         </IconButton>
         <IconButton
           aria-label="More actions"

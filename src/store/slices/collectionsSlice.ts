@@ -44,6 +44,9 @@ const collectionsSlice = createSlice({
       const id = action.payload;
       state.expandedIds[id] = !state.expandedIds[id];
     },
+    collapseAll(state) {
+      state.expandedIds = {};
+    },
     setExpanded(
       state,
       action: PayloadAction<{ id: string; expanded: boolean }>,
@@ -165,6 +168,7 @@ const collectionsSlice = createSlice({
 
 export const {
   toggleExpanded,
+  collapseAll,
   setExpanded,
   selectNode,
   addFolder,

@@ -15,17 +15,28 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import type { FlatCollectionNode } from '../../types';
-import { flattenVisible } from '../../utils/tree';
+import { findNode, flattenVisible } from '../../utils/tree';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
+  addFolder,
+  addRequest,
+  deleteNode,
   moveNode,
+  renameNode,
   selectNode,
   toggleExpanded,
 } from '../../store/slices/collectionsSlice';
 import { TREE_INDENT_PX } from '../../data/constants';
+import { useTreeShortcuts } from '../../hooks/useKeyboardShortcuts';
 import { CollectionNode } from './CollectionNode';
 import { getDropProjection, type DropProjection } from './treeProjection';
+import { ConfirmDialog } from '../ui/confirm-dialog';
 import './CollectionTree.css';
+
+interface DeleteTarget {
+  id: string;
+  name: string;
+}
 
 function CollectionTreeComponent() {
   const dispatch = useAppDispatch();
@@ -40,6 +51,8 @@ function CollectionTreeComponent() {
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [projection, setProjection] = useState<DropProjection | null>(null);
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -103,6 +116,73 @@ function CollectionTreeComponent() {
     [dispatch],
   );
 
+  const handleStartRename = useCallback(
+    (id: string) => {
+      setRenamingId(id);
+      dispatch(selectNode(id));
+    },
+    [dispatch],
+  );
+
+  const handleCommitRename = useCallback(
+    (id: string, name: string) => {
+      dispatch(renameNode({ id, name }));
+      setRenamingId(null);
+    },
+    [dispatch],
+  );
+
+  const handleCancelRename = useCallback(() => {
+    setRenamingId(null);
+  }, []);
+
+  const handleAddRequest = useCallback(
+    (parentId: string) => {
+      dispatch(addRequest({ parentId, method: 'GET' }));
+    },
+    [dispatch],
+  );
+
+  const handleAddFolder = useCallback(
+    (parentId: string) => {
+      dispatch(addFolder({ parentId }));
+    },
+    [dispatch],
+  );
+
+  const handleRequestDelete = useCallback(
+    (id: string) => {
+      const target = findNode(tree, id);
+      if (!target) return;
+      setDeleteTarget({ id, name: target.name });
+    },
+    [tree],
+  );
+
+  const handleConfirmDelete = useCallback(() => {
+    if (!deleteTarget) return;
+    dispatch(deleteNode(deleteTarget.id));
+    setDeleteTarget(null);
+  }, [deleteTarget, dispatch]);
+
+  const handleDeleteDialogOpenChange = useCallback((open: boolean) => {
+    if (!open) setDeleteTarget(null);
+  }, []);
+
+  useTreeShortcuts({
+    onRename: selectedId
+      ? () => {
+          setRenamingId(selectedId);
+        }
+      : undefined,
+    onDelete: selectedId
+      ? () => {
+          const target = findNode(tree, selectedId);
+          if (target) setDeleteTarget({ id: selectedId, name: target.name });
+        }
+      : undefined,
+  });
+
   const activeFlat: FlatCollectionNode | undefined = useMemo(
     () => (activeId ? flat.find((n) => n.id === activeId) : undefined),
     [activeId, flat],
@@ -130,9 +210,16 @@ function CollectionTreeComponent() {
                   flat={item}
                   expanded={Boolean(expandedIds[item.id])}
                   selected={selectedId === item.id}
+                  renaming={renamingId === item.id}
                   overlayDepth={overlayDepth}
                   onToggle={handleToggle}
                   onSelect={handleSelect}
+                  onStartRename={handleStartRename}
+                  onCommitRename={handleCommitRename}
+                  onCancelRename={handleCancelRename}
+                  onAddRequest={handleAddRequest}
+                  onAddFolder={handleAddFolder}
+                  onRequestDelete={handleRequestDelete}
                 />
               );
             })}
@@ -152,6 +239,17 @@ function CollectionTreeComponent() {
           ) : null}
         </DragOverlay>
       </DndContext>
+
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title={deleteTarget ? `Delete "${deleteTarget.name}"?` : ''}
+        description="This action cannot be undone."
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        destructive
+        onConfirm={handleConfirmDelete}
+        onOpenChange={handleDeleteDialogOpenChange}
+      />
     </div>
   );
 }

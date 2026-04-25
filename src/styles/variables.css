@@ -20,6 +20,7 @@
   --sidebar-max: 600px;
   --sidebar-row-hover: #2a2d2e;
   --sidebar-row-selected: #37373d;
+  --tree-indent-guide: #404040;
 
   --tabs-bg: #2d2d2d;
   --tab-active-bg: #1e1e1e;
@@ -51,11 +52,11 @@
   --border: #333333;
   --scrollbar: #424242;
 
-  --method-get: #49cc90;
-  --method-post: #fca130;
-  --method-put: #61affe;
-  --method-patch: #50e3c2;
-  --method-delete: #f93e3e;
-  --method-head: #9012fe;
-  --method-options: #0d5aa7;
+  --method-get: #6BDD9A;
+  --method-post: #FFE47E;
+  --method-put: #74AEF6;
+  --method-patch: #C0A8E1;
+  --method-delete: #F79A8E;
+  --method-head: #6BDD9A;
+  --method-options: #F15EB0;
 }

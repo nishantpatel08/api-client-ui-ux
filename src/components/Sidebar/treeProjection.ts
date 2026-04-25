@@ -21,59 +21,52 @@ export function getDropProjection({
   offsetX,
   indentPx,
 }: ProjectionInput): DropProjection | null {
-  const overIndex = flat.findIndex((n) => n.id === overId);
-  if (overIndex < 0) return null;
-
-  const filtered = flat.filter((n) => n.id !== activeId);
   const activeIndex = flat.findIndex((n) => n.id === activeId);
+  const overIndex = flat.findIndex((n) => n.id === overId);
+  if (activeIndex < 0 || overIndex < 0) return null;
+
+  const activeNode = flat[activeIndex];
+  const filtered = flat.filter((n) => n.id !== activeId);
   const overFilteredIndex = filtered.findIndex((n) => n.id === overId);
   if (overFilteredIndex < 0) return null;
 
-  const overNode = filtered[overFilteredIndex];
-  const previousNode = filtered[overFilteredIndex - 1];
-  const nextNode = filtered[overFilteredIndex + 1];
+  const movingDown = activeIndex < overIndex;
+  const insertionIndex = movingDown ? overFilteredIndex + 1 : overFilteredIndex;
+  const previousItem = filtered[insertionIndex - 1];
+  const nextItem = filtered[insertionIndex];
 
-  const draggedDepth = Math.round(offsetX / indentPx);
+  const dragDepth = Math.round(offsetX / indentPx);
+  const projectedDepth = Math.max(0, activeNode.depth + dragDepth);
 
-  const movingDown = activeIndex !== -1 && activeIndex < overIndex;
-  const baseDepth = movingDown ? nextNode?.depth ?? 0 : overNode.depth;
-  const projectedDepth = Math.max(0, baseDepth + draggedDepth);
-
-  const maxDepth = previousNode
-    ? previousNode.node.type === 'folder'
-      ? previousNode.depth + 1
-      : previousNode.depth
+  const maxDepth = previousItem
+    ? previousItem.node.type === 'folder'
+      ? previousItem.depth + 1
+      : previousItem.depth
     : 0;
-  const minDepth = nextNode ? nextNode.depth : 0;
+  const minDepth = nextItem ? nextItem.depth : 0;
 
   const depth = Math.min(Math.max(projectedDepth, minDepth), maxDepth);
 
   let parentId: string | null = null;
-  if (depth > 0 && previousNode) {
-    if (depth === previousNode.depth + 1 && previousNode.node.type === 'folder') {
-      parentId = previousNode.id;
-    } else if (depth <= previousNode.depth) {
-      let cursor = previousNode;
-      while (cursor.depth >= depth) {
-        const parent = cursor.parentId
-          ? filtered.find((n) => n.id === cursor.parentId)
-          : null;
-        if (!parent) {
-          parentId = cursor.parentId;
-          break;
-        }
-        if (parent.depth + 1 === depth) {
-          parentId = parent.id;
-          break;
-        }
-        cursor = parent;
+  if (depth > 0 && previousItem) {
+    if (depth === previousItem.depth + 1) {
+      parentId =
+        previousItem.node.type === 'folder'
+          ? previousItem.id
+          : previousItem.parentId;
+    } else if (depth <= previousItem.depth) {
+      let cursor: FlatCollectionNode | undefined = previousItem;
+      while (cursor && cursor.depth >= depth) {
+        cursor = cursor.parentId
+          ? filtered.find((n) => n.id === cursor!.parentId)
+          : undefined;
       }
+      parentId = cursor ? cursor.id : null;
     }
   }
 
-  const sliceEnd = overFilteredIndex + (movingDown ? 1 : 0);
   const targetIndex = filtered
-    .slice(0, sliceEnd)
+    .slice(0, insertionIndex)
     .filter((n) => n.parentId === parentId).length;
 
   return { parentId, targetIndex, depth };

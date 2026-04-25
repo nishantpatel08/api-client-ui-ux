@@ -2,7 +2,34 @@ import type { EditorPane, TabItem } from '../types';
 import {
   ACTIVITY_COLLECTIONS,
   SIDEBAR_DEFAULT,
+  SIDEBAR_MAX,
+  SIDEBAR_MIN,
 } from '../data/constants';
+
+export const SIDEBAR_WIDTH_STORAGE_KEY = 'workbench:sidebarWidth';
+export const SIDEBAR_HIDDEN_STORAGE_KEY = 'workbench:sidebarHidden';
+
+function readStoredSidebarWidth(): number {
+  if (typeof window === 'undefined') return SIDEBAR_DEFAULT;
+  try {
+    const raw = window.localStorage.getItem(SIDEBAR_WIDTH_STORAGE_KEY);
+    if (!raw) return SIDEBAR_DEFAULT;
+    const parsed = Number.parseInt(raw, 10);
+    if (!Number.isFinite(parsed)) return SIDEBAR_DEFAULT;
+    return Math.min(SIDEBAR_MAX, Math.max(SIDEBAR_MIN, parsed));
+  } catch {
+    return SIDEBAR_DEFAULT;
+  }
+}
+
+function readStoredSidebarHidden(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return window.localStorage.getItem(SIDEBAR_HIDDEN_STORAGE_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
 
 export interface WorkbenchState {
   activeActivity: string;
@@ -37,11 +64,14 @@ const DEFAULT_PANE_2_TABS: TabItem[] = [
   { id: 'tab-p2-readme', fileId: 'readme' },
 ];
 
+const STORED_SIDEBAR_WIDTH = readStoredSidebarWidth();
+const STORED_SIDEBAR_HIDDEN = readStoredSidebarHidden();
+
 export const INITIAL_STATE: WorkbenchState = {
   activeActivity: ACTIVITY_COLLECTIONS,
-  sidebarWidth: SIDEBAR_DEFAULT,
-  sidebarHidden: false,
-  lastOpenSidebarWidth: SIDEBAR_DEFAULT,
+  sidebarWidth: STORED_SIDEBAR_WIDTH,
+  sidebarHidden: STORED_SIDEBAR_HIDDEN,
+  lastOpenSidebarWidth: STORED_SIDEBAR_WIDTH,
   panes: [
     {
       id: 'pane-1',

@@ -1,9 +1,13 @@
 import { Provider } from 'react-redux';
-import { store } from './store';
+import type { AppStore } from './store';
 import { WorkbenchProvider } from './context/WorkbenchContext';
 import { Workbench } from './components/Workbench';
 
-function App() {
+interface AppProps {
+  store: AppStore;
+}
+
+function App({ store }: AppProps) {
   return (
     <Provider store={store}>
       <WorkbenchProvider>

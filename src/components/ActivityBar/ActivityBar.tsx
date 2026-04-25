@@ -41,10 +41,20 @@ const ActivityBarComponent = forwardRef<HTMLElement>(function ActivityBar(
   ref,
 ) {
   const { state, dispatch } = useWorkbench();
+  const { activeActivity, sidebarHidden } = state;
 
   const handleSelect = useCallback(
-    (id: string) => dispatch({ type: 'SET_ACTIVITY', id }),
-    [dispatch],
+    (id: string) => {
+      if (id === activeActivity) {
+        dispatch({ type: 'TOGGLE_SIDEBAR' });
+        return;
+      }
+      dispatch({ type: 'SET_ACTIVITY', id });
+      if (sidebarHidden) {
+        dispatch({ type: 'SET_SIDEBAR_HIDDEN', hidden: false });
+      }
+    },
+    [activeActivity, dispatch, sidebarHidden],
   );
 
   const grouped = useMemo(() => {
@@ -64,7 +74,7 @@ const ActivityBarComponent = forwardRef<HTMLElement>(function ActivityBar(
           <ActivityIconButton
             key={item.id}
             item={item}
-            active={state.activeActivity === item.id}
+            active={activeActivity === item.id && !sidebarHidden}
             onSelect={handleSelect}
           />
         ))}
@@ -74,7 +84,7 @@ const ActivityBarComponent = forwardRef<HTMLElement>(function ActivityBar(
           <ActivityIconButton
             key={item.id}
             item={item}
-            active={state.activeActivity === item.id}
+            active={activeActivity === item.id && !sidebarHidden}
             onSelect={handleSelect}
           />
         ))}

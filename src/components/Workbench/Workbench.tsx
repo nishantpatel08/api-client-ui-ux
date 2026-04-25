@@ -2,6 +2,7 @@ import { memo, useCallback, useRef } from 'react';
 import { useWorkbench } from '../../hooks/useWorkbench';
 import { useDragSash } from '../../hooks/useDragSash';
 import { useSidebarLayout } from '../../hooks/useSidebarLayout';
+import { useSidebarToggleShortcut } from '../../hooks/useKeyboardShortcuts';
 import {
   SIDEBAR_MIN,
   SIDEBAR_SNAP_THRESHOLD,
@@ -41,26 +42,24 @@ function WorkbenchComponent() {
 
   const handleDragMove = useCallback(
     (deltaX: number) => {
-      const { width: startWidth, hidden: startHidden } = dragStartRef.current;
+      const { width: startWidth } = dragStartRef.current;
       const proposed = startWidth + deltaX;
       const node = sidebarRef.current;
-
-      if (startHidden) {
-        if (proposed >= SIDEBAR_SNAP_THRESHOLD) {
-          const next = Math.max(SIDEBAR_MIN, proposed);
-          if (node) node.style.width = `${next}px`;
-        }
-        return;
-      }
-
-      if (proposed < SIDEBAR_SNAP_THRESHOLD) {
-        if (node) node.style.width = '0px';
-        return;
-      }
+      if (!node) return;
 
       const max = getMaxWidth();
-      const next = Math.min(max, Math.max(SIDEBAR_MIN, proposed));
-      if (node) node.style.width = `${next}px`;
+
+      if (proposed < SIDEBAR_SNAP_THRESHOLD) {
+        node.style.width = '0px';
+        return;
+      }
+
+      if (proposed < SIDEBAR_MIN) {
+        node.style.width = `${proposed}px`;
+        return;
+      }
+
+      node.style.width = `${Math.min(max, proposed)}px`;
     },
     [getMaxWidth],
   );
@@ -70,25 +69,16 @@ function WorkbenchComponent() {
     const node = sidebarRef.current;
     const currentWidth = node ? node.offsetWidth : startWidth;
 
-    if (startHidden) {
-      if (currentWidth >= SIDEBAR_SNAP_THRESHOLD) {
-        toggleHidden(false);
-        applyWidth(Math.max(SIDEBAR_MIN, currentWidth));
-      } else if (node) {
-        node.style.width = '0px';
-      }
+    if (currentWidth < SIDEBAR_SNAP_THRESHOLD) {
+      dispatch({ type: 'SET_SIDEBAR_HIDDEN', hidden: true });
+      if (node) node.style.width = '0px';
       return;
     }
 
-    if (currentWidth < SIDEBAR_SNAP_THRESHOLD) {
-      dispatch({
-        type: 'SET_SIDEBAR_HIDDEN',
-        hidden: true,
-      });
-      if (node) node.style.width = '0px';
-    } else {
-      applyWidth(currentWidth);
+    if (startHidden) {
+      toggleHidden(false);
     }
+    applyWidth(Math.max(SIDEBAR_MIN, currentWidth));
   }, [applyWidth, dispatch, toggleHidden]);
 
   const { dragging, onMouseDown } = useDragSash({
@@ -96,6 +86,8 @@ function WorkbenchComponent() {
     onMove: handleDragMove,
     onEnd: handleDragEnd,
   });
+
+  useSidebarToggleShortcut();
 
   return (
     <div className="workbench" id="workbench">
