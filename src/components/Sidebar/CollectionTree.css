@@ -52,20 +52,20 @@
   width: calc(var(--tree-depth, 0) * var(--tree-indent-px, 12px));
   height: 100%;
   pointer-events: none;
-  background-image: repeating-linear-gradient(
+  background-image: linear-gradient(
     to right,
-    var(--tree-indent-guide) 0,
-    var(--tree-indent-guide) 1px,
-    transparent 1px,
-    transparent var(--tree-indent-px, 12px)
+    transparent calc(50% - 0.5px),
+    var(--tree-indent-guide) calc(50% - 0.5px),
+    var(--tree-indent-guide) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
   );
-  background-size: calc(var(--tree-depth, 0) * var(--tree-indent-px, 12px)) 100%;
-  background-repeat: no-repeat;
+  background-size: var(--tree-indent-px, 12px) 100%;
+  background-repeat: repeat-x;
 }
 
 .tree-row__chevron {
   flex-shrink: 0;
-  width: 16px;
+  width: 14px;
   height: 100%;
   display: inline-flex;
   align-items: center;
@@ -98,9 +98,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 44px;
-  padding: 0 4px;
-  margin-right: 6px;
+  min-width: 30px;
+  padding: 0 2px;
+  margin-right: 4px;
 }
 
 .tree-row__folder-icon {
@@ -149,7 +149,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: start;
-  min-width: 44px;
+  min-width: 30px;
   padding: 0 2px;
   font-size: 10px;
   font-weight: 700;
