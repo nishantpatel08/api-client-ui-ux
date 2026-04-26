@@ -30,6 +30,15 @@
   background: rgba(255, 255, 255, 0.12);
 }
 
+.status-item--layout {
+  font-weight: 500;
+}
+
+.status-item__icon {
+  width: 13px;
+  height: 13px;
+}
+
 .status-bar__right {
   margin-left: auto;
   display: flex;

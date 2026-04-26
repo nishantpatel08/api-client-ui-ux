@@ -1,8 +1,10 @@
-import { memo } from 'react';
+import { memo, type ReactNode } from 'react';
+import { Columns2, Rows2 } from 'lucide-react';
+import { useWorkbench } from '../../hooks/useWorkbench';
 import './StatusBar.css';
 
 interface StatusItemProps {
-  children: React.ReactNode;
+  children: ReactNode;
   label?: string;
 }
 
@@ -20,16 +22,14 @@ const LEFT_ITEMS = [
 ] as const;
 
 const RIGHT_ITEMS = [
-  { id: 'language', label: 'Language', content: 'TypeScript' },
-  { id: 'cursor', label: 'Cursor position', content: 'Ln 42, Col 18' },
-  { id: 'indent', label: 'Indent', content: 'Spaces: 2' },
   { id: 'encoding', label: 'Encoding', content: 'UTF-8' },
-  { id: 'eol', label: 'End of Line', content: 'LF' },
-  { id: 'formatter', label: 'Formatter', content: 'Prettier' },
   { id: 'notifications', label: 'Notifications', content: '🔔' },
 ] as const;
 
 function StatusBarComponent() {
+  const { state, dispatch } = useWorkbench();
+  const isColumns = state.panelLayout === 'columns';
+
   return (
     <footer className="status-bar" role="status" aria-label="Status Bar">
       {LEFT_ITEMS.map((item) => (
@@ -39,6 +39,24 @@ function StatusBarComponent() {
       ))}
 
       <div className="status-bar__right">
+        <button
+          type="button"
+          className="status-item status-item--layout"
+          aria-label="Toggle request response panel layout"
+          title={
+            isColumns
+              ? 'Switch to stacked request/response panels'
+              : 'Switch to side-by-side request/response panels'
+          }
+          onClick={() => dispatch({ type: 'TOGGLE_PANEL_LAYOUT' })}
+        >
+          {isColumns ? (
+            <Columns2 className="status-item__icon" aria-hidden="true" />
+          ) : (
+            <Rows2 className="status-item__icon" aria-hidden="true" />
+          )}
+          <span>{isColumns ? 'Columns' : 'Rows'}</span>
+        </button>
         {RIGHT_ITEMS.map((item) => (
           <StatusItem key={item.id} label={item.label}>
             {item.content}

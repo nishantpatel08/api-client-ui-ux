@@ -5,16 +5,25 @@ import './styles/tailwind.css';
 import './styles/global.css';
 import App from './App';
 import { createAppStore } from './store';
-import { getSeedCollectionsState, loadCollections } from './store/persistence';
+import {
+  getSeedCollectionsState,
+  getSeedRequestTabsState,
+  loadCollections,
+  loadRequestTabs,
+} from './store/persistence';
 
 async function bootstrap() {
   const rootEl = document.getElementById('root');
   if (!rootEl) throw new Error('Root element #root not found');
   document.documentElement.classList.add('dark');
 
-  const storedCollections = await loadCollections();
+  const [storedCollections, storedRequestTabs] = await Promise.all([
+    loadCollections(),
+    loadRequestTabs(),
+  ]);
   const store = createAppStore({
     collections: storedCollections ?? getSeedCollectionsState(),
+    requestTabs: storedRequestTabs ?? getSeedRequestTabsState(),
   });
 
   createRoot(rootEl).render(

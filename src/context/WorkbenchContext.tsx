@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useReducer, type ReactNode } from 'react';
 import {
   INITIAL_STATE,
+  PANEL_LAYOUT_STORAGE_KEY,
   SIDEBAR_HIDDEN_STORAGE_KEY,
   SIDEBAR_WIDTH_STORAGE_KEY,
   workbenchReducer,
@@ -38,6 +39,15 @@ export function WorkbenchProvider({ children }: WorkbenchProviderProps) {
       // ignore quota / access errors
     }
   }, [state.sidebarHidden]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(PANEL_LAYOUT_STORAGE_KEY, state.panelLayout);
+    } catch {
+      // ignore quota / access errors
+    }
+  }, [state.panelLayout]);
 
   return (
     <WorkbenchContext.Provider value={value}>

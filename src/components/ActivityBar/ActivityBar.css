@@ -63,7 +63,11 @@
   border-radius: 0 2px 2px 0;
 }
 
-.activity-icon__svg {
-  font-size: 22px;
+.activity-icon .codicon {
+  /*
+  TODO: When monaco editor is loaded codicon icon changes its size,
+  Temp fix is to use important, but we should investigate why this happens and find a better solution
+  */
+  font-size: 22px !important;
   line-height: 1;
 }

@@ -2,31 +2,49 @@ import { configureStore } from '@reduxjs/toolkit';
 import collectionsReducer, {
   type CollectionsState,
 } from './slices/collectionsSlice';
-import { saveCollections } from './persistence';
+import requestTabsReducer, {
+  type RequestTabsState,
+} from './slices/requestTabsSlice';
+import { saveCollections, saveRequestTabs } from './persistence';
 
 export interface PreloadedStoreState {
   collections: CollectionsState;
+  requestTabs: RequestTabsState;
 }
 
 export function createAppStore(preloadedState: PreloadedStoreState) {
   const store = configureStore({
     reducer: {
       collections: collectionsReducer,
+      requestTabs: requestTabsReducer,
     },
     preloadedState,
   });
 
-  let saveTimer: ReturnType<typeof setTimeout> | null = null;
-  let previousCollections = store.getState().collections;
+  const debounce = <Fn extends (...args: never[]) => void>(fn: Fn, ms: number) => {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    return (...args: Parameters<Fn>) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => fn(...args), ms);
+    };
+  };
+
+  const debouncedSaveCollections = debounce(saveCollections, 250);
+  const debouncedSaveRequestTabs = debounce(saveRequestTabs, 250);
+
+  let prevCollections = store.getState().collections;
+  let prevRequestTabs = store.getState().requestTabs;
 
   store.subscribe(() => {
-    const nextCollections = store.getState().collections;
-    if (nextCollections === previousCollections) return;
-    previousCollections = nextCollections;
-    if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      saveCollections(nextCollections);
-    }, 250);
+    const state = store.getState();
+    if (state.collections !== prevCollections) {
+      prevCollections = state.collections;
+      debouncedSaveCollections(state.collections);
+    }
+    if (state.requestTabs !== prevRequestTabs) {
+      prevRequestTabs = state.requestTabs;
+      debouncedSaveRequestTabs(state.requestTabs);
+    }
   });
 
   return store;

@@ -11,8 +11,9 @@ import { Header } from '../Header';
 import { ActivityBar } from '../ActivityBar';
 import { Sidebar } from '../Sidebar';
 import { Sash } from '../Sash';
-import { EditorArea } from '../EditorArea';
+import { RequestArea } from '../RequestArea';
 import { StatusBar } from '../StatusBar';
+import { WorkbenchDndProvider } from '../WorkbenchDnd';
 import './Workbench.css';
 
 function WorkbenchComponent() {
@@ -90,22 +91,24 @@ function WorkbenchComponent() {
   useSidebarToggleShortcut();
 
   return (
-    <div className="workbench" id="workbench">
-      <Header />
+    <WorkbenchDndProvider>
+      <div className="workbench" id="workbench">
+        <Header />
 
-      <div className="workbench__body" ref={mainBodyRef} id="main-body">
-        <ActivityBar ref={activityBarRef} />
-        <Sidebar ref={sidebarRef} />
-        <Sash
-          dragging={dragging}
-          onMouseDown={onMouseDown}
-          aria-label="Resize primary side bar"
-        />
-        <EditorArea />
+        <div className="workbench__body" ref={mainBodyRef} id="main-body">
+          <ActivityBar ref={activityBarRef} />
+          <Sidebar ref={sidebarRef} />
+          <Sash
+            dragging={dragging}
+            onMouseDown={onMouseDown}
+            aria-label="Resize primary side bar"
+          />
+          <RequestArea />
+        </div>
+
+        <StatusBar />
       </div>
-
-      <StatusBar />
-    </div>
+    </WorkbenchDndProvider>
   );
 }
 

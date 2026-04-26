@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from 'react';
 import { useWorkbench } from './useWorkbench';
 import {
+  EDITOR_AREA_MIN,
   SASH_WIDTH,
   SIDEBAR_MAX,
   SIDEBAR_MIN,
-  SPLIT_PANE_MIN,
 } from '../data/constants';
 import { clamp } from '../utils/clamp';
 
@@ -24,26 +24,14 @@ export function useSidebarLayout({
   activityBarRef,
 }: LayoutRefs): SidebarLayoutApi {
   const { state, dispatch } = useWorkbench();
-  const {
-    panes,
-    hiddenPaneIds,
-    sidebarWidth,
-    sidebarHidden,
-  } = state;
-
-  const getEditorMinWidth = useCallback(() => {
-    const visible = panes.filter((p) => !hiddenPaneIds.includes(p.id)).length;
-    const handles = visible > 1 ? visible - 1 : 0;
-    return visible * SPLIT_PANE_MIN + handles * SASH_WIDTH;
-  }, [panes, hiddenPaneIds]);
+  const { sidebarWidth, sidebarHidden } = state;
 
   const getMaxWidth = useCallback(() => {
     const containerW = mainBodyRef.current?.offsetWidth ?? window.innerWidth;
     const activityW = activityBarRef.current?.offsetWidth ?? 0;
-    const available =
-      containerW - activityW - SASH_WIDTH - getEditorMinWidth();
+    const available = containerW - activityW - SASH_WIDTH - EDITOR_AREA_MIN;
     return Math.max(SIDEBAR_MIN, Math.min(SIDEBAR_MAX, available));
-  }, [mainBodyRef, activityBarRef, getEditorMinWidth]);
+  }, [mainBodyRef, activityBarRef]);
 
   const applyWidth = useCallback(
     (width: number) => {

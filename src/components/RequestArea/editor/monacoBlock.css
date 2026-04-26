@@ -1,0 +1,11 @@
+.monaco-block {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.monaco-block__loading {
+  padding: 12px;
+  color: var(--tab-inactive-fg);
+  font-size: 12px;
+}

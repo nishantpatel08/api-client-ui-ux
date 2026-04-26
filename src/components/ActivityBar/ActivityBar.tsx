@@ -33,7 +33,7 @@ const ActivityIconButton = memo(function ActivityIconButton({
       onClick={handleClick}
     >
       {iconName ? (
-        <Codicon name={iconName} className="activity-icon__svg" aria-hidden="true" />
+        <Codicon name={iconName} aria-hidden="true" />
       ) : null}
     </button>
   );

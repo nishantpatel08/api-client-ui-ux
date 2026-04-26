@@ -17,7 +17,7 @@ function SearchBarComponent() {
         value={value}
         onChange={handleChange}
         placeholder="Search requests, collections, environments..."
-        className="header__search-input"
+        className="header__search-input h-7.5"
         aria-label="Search"
       />
     </div>

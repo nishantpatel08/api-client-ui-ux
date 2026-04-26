@@ -1,0 +1,1 @@
+export { WorkbenchDndProvider } from './WorkbenchDndProvider';

@@ -154,6 +154,30 @@ export function updateNode(
   });
 }
 
+export function getNodePath(
+  tree: CollectionNode[],
+  id: string,
+): CollectionNode[] {
+  const path: CollectionNode[] = [];
+
+  function walk(nodes: CollectionNode[]): boolean {
+    for (const node of nodes) {
+      if (node.id === id) {
+        path.push(node);
+        return true;
+      }
+      if (isFolder(node) && walk(node.children)) {
+        path.unshift(node);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  walk(tree);
+  return path;
+}
+
 export function flattenVisible(
   tree: CollectionNode[],
   expandedIds: Record<string, boolean>,
