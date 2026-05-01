@@ -55,12 +55,9 @@ function WorkbenchComponent() {
         return;
       }
 
-      if (proposed < SIDEBAR_MIN) {
-        node.style.width = `${proposed}px`;
-        return;
-      }
-
-      node.style.width = `${Math.min(max, proposed)}px`;
+      // Stop resizing at SIDEBAR_MIN, don't allow going below it
+      const clampedWidth = Math.max(SIDEBAR_MIN, proposed);
+      node.style.width = `${Math.min(max, clampedWidth)}px`;
     },
     [getMaxWidth],
   );
